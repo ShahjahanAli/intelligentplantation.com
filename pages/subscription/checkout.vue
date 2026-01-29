@@ -51,43 +51,61 @@
         <!-- Left Side: Plan Selection & Payment -->
         <div class="lg:col-span-2 space-y-6">
           <!-- Plan Selection -->
-          <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Choose Your Plan</h2>
+            <div class="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Choose Your Plan</h2>
 
-            <!-- Plan Cards -->
-            <div class="grid md:grid-cols-3 gap-4">
-              <button v-for="plan in plans" :key="plan.id" @click="selectPlan(plan.id)"
-                class="relative p-4 rounded-xl border-2 text-left transition-all"
-                :class="selectedPlan === plan.id ? 'border-emerald-600 bg-emerald-50' : 'border-gray-200 hover:border-gray-300'">
-                <div v-if="plan.popular"
-                  class="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs font-medium px-3 py-1 rounded-full">
-                  Most Popular
+                <!-- Plan Cards -->
+                <div class="grid md:grid-cols-3 gap-4">
+                    <button v-for="plan in plans" :key="plan.name" @click="selectPlan(plan.name)"
+                        class="relative p-4 rounded-xl border-2 text-left transition-all"
+                        :class="selectedPlan === plan.name ? 'border-emerald-600 bg-emerald-50' : 'border-gray-200 hover:border-gray-300'">
+
+                        <!-- Popular Badge -->
+                        <div v-if="plan.popular"
+                            class="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+                            Most Popular
+                        </div>
+
+                        <!-- Plan Name & Selection Indicator -->
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-gray-900">{{ plan.name }}</span>
+                            <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
+                                :class="selectedPlan === plan.name ? 'border-emerald-600 bg-emerald-600' : 'border-gray-300'">
+                                <svg v-if="selectedPlan === plan.name" class="w-3 h-3 text-white" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Price & Period -->
+                        <div class="mb-2">
+                            <span class="text-2xl font-bold text-gray-900">{{ plan.price }}</span>
+                            <span class="text-gray-500 text-sm">{{ plan.period }}</span>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-sm text-gray-600 mb-3">{{ plan.description }}</p>
+
+                        <!-- Features List -->
+                        <ul class="space-y-1">
+                            <li v-for="(feature, idx) in plan.features" :key="idx"
+                                class="flex items-center gap-3 text-sm text-gray-600">
+                                <svg class="w-3 h-3 text-emerald-500 flex-shrink-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                {{ feature }}
+                            </li>
+                        </ul>
+                    </button>
                 </div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="font-semibold text-gray-900">{{ plan.name }}</span>
-                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
-                    :class="selectedPlan === plan.id ? 'border-emerald-600 bg-emerald-600' : 'border-gray-300'">
-                    <svg v-if="selectedPlan === plan.id" class="w-3 h-3 text-white" fill="none" stroke="currentColor"
-                      viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <span class="text-2xl font-bold text-gray-900">${{ plan.monthlyPrice }}</span>
-                  <span class="text-gray-500 text-sm">/mo</span>
-                </div>
-                <ul class="space-y-1">
-                  <li v-for="(feature, idx) in plan.features.slice(0,3)" :key="idx" class="flex items-center gap-2 text-xs text-gray-600">
-                    <svg class="w-3 h-3 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {{ feature }}
-                  </li>
-                </ul>
-              </button>
             </div>
-          </div>
+
+
+        
 
           <!-- Payment Form -->
           <form @submit.prevent="handleSubmit" class="bg-white rounded-xl border border-gray-200 p-6">
@@ -135,8 +153,8 @@
             <h2 class="text-lg font-bold text-gray-900 mb-4">Order Summary</h2>
             <div class="space-y-4 mb-6">
               <div class="flex justify-between">
-                <span class="text-gray-600">{{ selectedPlanData.name }} Plan</span>
-                <span class="font-medium text-gray-900">${{ selectedPlanData.monthlyPrice }}/mo</span>
+                <span class="text-gray-600">{{ selectedPlanData.name }}</span>
+                <span class="font-medium text-gray-900">{{ selectedPlanData.price }}/mo</span>
               </div>
               <!-- <div class="border-t border-gray-200 pt-4">
                 <div class="flex justify-between items-center">
@@ -149,12 +167,12 @@
                 <div class="space-y-2 mb-6 border-t pt-4">
                     <p class="text-sm font-medium text-gray-700">Included Features:</p>
                     <ul class="space-y-1">
-                    <li v-for="(feature, index) in selectedPlanData.features" :key="index" class="flex items-center gap-2 text-sm text-gray-600">
-                        <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        {{ feature }}
-                    </li>
+                        <li v-for="(feature, index) in selectedPlanData.features" :key="index" class="flex items-center gap-2 text-sm text-gray-600">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            {{ feature }}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -165,21 +183,41 @@
   </div>
 </template>
 
+
 <script>
 export default {
   layout: 'auth',
   data() {
     return {
-      selectedPlan: 'pro',
+      selectedPlan: 'Pro Garden+',
       plans: [
-        { id: 'starter', name: 'Starter', monthlyPrice: 29, features: ['Up to 50 plants', 'Basic AI analysis', 'Email support'] },
-        { id: 'pro', name: 'Pro Garden+', monthlyPrice: 49, features: ['Unlimited plants', 'Advanced AI features', 'Priority support'], popular: true },
-        { id: 'enterprise', name: 'Enterprise', monthlyPrice: 99, features: ['Everything in Pro', 'Dedicated account manager', 'API access'] },
-      ],
-      pricingPlans: [
-        { name: 'Free', description: 'For hobby gardeners just getting started', price: '$0', period: '/ Month', features: ['Track 5 plants', 'Basic watering reminders', 'Community forum access', 'Weather alerts'], cta: 'Get Started', popular: false },
-        { name: 'Pro Garden+', description: 'For passionate gardeners who want more', price: '$9.99', period: '/ Month', features: ['Unlimited plants','AI plant health detection','Advanced growth analytics','Priority support','Custom reminders','Export garden data'], cta: 'Start 14-day Trial', popular: true },
-        { name: 'School Garden', description: 'For schools and community gardens', price: '$100.00', period: '/ Month', features: ['Multiple garden plots','Student accounts','Lesson plan integration','Admin dashboard','Dedicated support','Custom branding'], cta: 'Contact Sales', popular: false },
+        { 
+          name: 'Free', 
+          description: 'For hobby gardeners just getting started', 
+          price: '$0', 
+          period: '/ Month', 
+          features: ['Track 5 plants', 'Basic watering reminders', 'Community forum access', 'Weather alerts'], 
+          cta: 'Get Started', 
+          popular: false 
+        },
+        { 
+          name: 'Pro Garden+', 
+          description: 'For passionate gardeners who want more', 
+          price: '$9.99', 
+          period: '/ Month', 
+          features: ['Unlimited plants','AI plant health detection','Advanced growth analytics','Priority support','Custom reminders','Export garden data'], 
+          cta: 'Start 14-day Trial', 
+          popular: true 
+        },
+        { 
+          name: 'School Garden', 
+          description: 'For schools and community gardens', 
+          price: '$100.00', 
+          period: '/ Month', 
+          features: ['Multiple garden plots','Student accounts','Lesson plan integration','Admin dashboard','Dedicated support','Custom branding'], 
+          cta: 'Contact Sales', 
+          popular: false 
+        },
       ],
       form: {
         cardNumber: '',
@@ -194,12 +232,12 @@ export default {
   },
   computed: {
     selectedPlanData() {
-      return this.plans.find(p => p.id === this.selectedPlan)
+      return this.plans.find(p => p.name === this.selectedPlan)
     }
   },
   methods: {
-    selectPlan(planId) {
-      this.selectedPlan = planId
+    selectPlan(planName) {
+      this.selectedPlan = planName
     },
     handleSubmit() {
       this.$router.push('/welcome')
@@ -207,3 +245,4 @@ export default {
   }
 }
 </script>
+
