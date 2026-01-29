@@ -1,4 +1,4 @@
-# nuxtjs-admin-panel
+# intelligentplantation.com
 
 ## Build Setup
 
