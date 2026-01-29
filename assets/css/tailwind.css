@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('./animation.css');
+:root {
+  --main-bg-color: #059669; 
+}
+
+/* ========== Header =========== */
+.nab-nuxt-link-wrap a.active,
+.nab-nuxt-link-wrap a:hover{
+    color: var(--main-bg-color);
+}
+
+nav .scroll-bar {
+  height: 3px;
+  background-color: var(--main-bg-color);
+  transition: width 0.2s ease-out;
+}
+/* ========== Hero section Css ==========*/
+.hero-wrapper {
+    position: relative;
+    padding-top: 140px;
+    padding-bottom: 100px;
+}
+

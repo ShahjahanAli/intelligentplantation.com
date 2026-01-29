@@ -1,0 +1,17 @@
+.animate-up-down-slow{
+    animation: upDownSlow 3s ease-in-out infinite;
+}
+
+@keyframes upDownSlow{
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.animate-zoom-in-out {
+    animation: zoomInOut 3s ease-in-out infinite;
+}
+
+@keyframes zoomInOut {
+    0%, 100% { transform: scale(1); }      /* normal size */
+    50% { transform: scale(1.1); }         /* zoom in 20% */
+}
