@@ -163,7 +163,7 @@ export default {
   methods: {
     handleSubmit() {
       // redirect to welcome page
-      this.$router.push('welcome')
+      this.$router.push('subscription/checkout')
     },
     togglePassword() {
       this.showPassword = !this.showPassword
