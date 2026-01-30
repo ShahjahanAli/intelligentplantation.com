@@ -5,7 +5,7 @@ export default {
 
   // Page headers
   head: {
-    title: 'nuxtjs-admin-panel',
+    title: 'Plant IQ | Plant Intelligence',
     htmlAttrs: { lang: 'en' },
     meta: [
       { charset: 'utf-8' },
